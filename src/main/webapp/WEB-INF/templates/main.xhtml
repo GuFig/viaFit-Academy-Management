@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><ui:insert name="title">viaFit</ui:insert></title>
+        <h:outputStylesheet library="css" name="main.css" />
+    </h:head>
+    <h:body styleClass="app-body">
+        <div class="app-background app-background-left"></div>
+        <div class="app-background app-background-right"></div>
+
+        <header class="topbar">
+            <div class="topbar-shell">
+                <div class="topbar-brand">
+                    <h:link outcome="/alunos.xhtml" styleClass="brand-logo-link">
+                        <h:graphicImage library="img" name="viafit-logo.png" styleClass="brand-logo" alt="viaFit" />
+                    </h:link>
+                </div>
+
+                <nav class="topbar-nav" aria-label="Menu principal">
+                    <h:link outcome="/alunos.xhtml" styleClass="topbar-link">
+                        <i class="pi pi-users topbar-link-icon" aria-hidden="true"></i>
+                        <span>Lista de alunos</span>
+                    </h:link>
+                    <h:link outcome="/aluno-form.xhtml" styleClass="topbar-link topbar-link-primary">
+                        <i class="pi pi-user-plus topbar-link-icon" aria-hidden="true"></i>
+                        <span>Novo cadastro</span>
+                    </h:link>
+                </nav>
+            </div>
+        </header>
+
+        <main class="page-shell">
+            <section class="hero-card">
+                <div>
+                    <span class="auxiliary-title"><ui:insert name="auxiliaryTitle">Gestao centralizada</ui:insert></span>
+                    <h2><ui:insert name="pageTitle">Gestao de alunos</ui:insert></h2>
+                    <p><ui:insert name="pageSubtitle">Organize dados fisicos, responsaveis e treinos em um unico sistema.</ui:insert></p>
+                </div>
+            </section>
+
+            <p:growl id="growl" showDetail="true" showSummary="true" life="5000">
+                <p:autoUpdate />
+            </p:growl>
+
+            <ui:insert name="content" />
+        </main>
+    </h:body>
+</html>

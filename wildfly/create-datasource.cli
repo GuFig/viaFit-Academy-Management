@@ -1,0 +1,12 @@
+if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
+    /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql)
+end-if
+
+if (outcome != success) of /subsystem=datasources/data-source=AcademyDS:read-resource
+    /subsystem=datasources/data-source=AcademyDS:add(jndi-name=java:/jdbc/AcademyDS,driver-name=postgresql,connection-url=jdbc:postgresql://${env.DB_HOST:localhost}:${env.DB_PORT:5432}/${env.DB_NAME:academy_management},user-name=${env.DB_USER:postgres},password=${env.DB_PASSWORD:12345},min-pool-size=5,max-pool-size=20,enabled=true,jta=true,use-ccm=true,valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker,exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter)
+end-if
+
+/subsystem=datasources/data-source=AcademyDS:write-attribute(name=connection-url,value=jdbc:postgresql://${env.DB_HOST:localhost}:${env.DB_PORT:5432}/${env.DB_NAME:academy_management})
+/subsystem=datasources/data-source=AcademyDS:write-attribute(name=user-name,value=${env.DB_USER:postgres})
+/subsystem=datasources/data-source=AcademyDS:write-attribute(name=password,value=${env.DB_PASSWORD:12345})
+/subsystem=datasources/data-source=AcademyDS:enable

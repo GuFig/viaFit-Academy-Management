@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="title">Alunos | viaFit</ui:define>
+    <ui:define name="auxiliaryTitle">Painel operacional</ui:define>
+    <ui:define name="pageTitle">Lista de alunos</ui:define>
+    <ui:define name="pageSubtitle">Acompanhe IMC, contatos e status cadastral.</ui:define>
+
+    <ui:define name="content">
+        <h:form id="listaForm">
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <span>Total de alunos</span>
+                    <strong>#{alunoListaBean.totalAlunos}</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Menores de idade</span>
+                    <strong>#{alunoListaBean.totalMenores}</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Mensalidade média</span>
+                    <strong>
+                        <h:outputText value="#{alunoListaBean.mensalidadeMedia}">
+                            <f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+                        </h:outputText>
+                    </strong>
+                </article>
+            </section>
+
+            <section class="content-card">
+                <div class="section-header">
+                    <div>
+                        <h3>Cadastros ativos</h3>
+                        <p>Use os filtros para localizar alunos por nome, classificação, telefone ou e-mail.</p>
+                    </div>
+
+                    <p:commandButton value="Novo aluno"
+                                     icon="pi pi-plus"
+                                     action="#{alunoListaBean.novo}"
+                                     ajax="false"
+                                     styleClass="app-pill-button app-pill-button-primary" />
+                </div>
+
+                <p:dataTable id="alunosTable"
+                             widgetVar="alunosTable"
+                             value="#{alunoListaBean.alunos}"
+                             var="aluno"
+                             paginator="true"
+                             rows="10"
+                             reflow="true"
+                             emptyMessage="Nenhum aluno encontrado."
+                             sortBy="#{aluno.nome}">
+
+                    <p:column headerText="Nome"
+                              sortBy="#{aluno.nome}"
+                              filterBy="#{aluno.nome}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{aluno.nome}" />
+                    </p:column>
+
+                    <p:column headerText="IMC" sortBy="#{aluno.imc}">
+                        <h:outputText value="#{aluno.imc}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Classificação"
+                              sortBy="#{aluno.classificacaoImc.descricao}"
+                              filterBy="#{aluno.classificacaoImc}"
+                              filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('alunosTable').filter()"
+                                             converter="classificacaoImcConverter"
+                                             styleClass="table-filter">
+                                <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{alunoListaBean.classificacoesImc}"
+                                               var="classificacao"
+                                               itemLabel="#{classificacao.descricao}"
+                                               itemValue="#{classificacao}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+
+                        <span class="badge badge-neutral">#{aluno.classificacaoImc.descricao}</span>
+                    </p:column>
+
+                    <p:column headerText="Plano" sortBy="#{aluno.plano.descricao}">
+                        <div class="plan-chip #{alunoListaBean.planoStyleClass(aluno.plano)}">
+                            <i class="#{alunoListaBean.planoIcon(aluno.plano)} plan-chip-icon" aria-hidden="true"></i>
+                            <div class="plan-chip-body">
+                                <strong class="plan-chip-title">#{aluno.plano.descricao}</strong>
+                                <span class="plan-chip-price">
+                                    <h:outputText value="#{aluno.valorMensalidade}">
+                                        <f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+                                    </h:outputText>
+                                    <span class="plan-chip-period">/mês</span>
+                                </span>
+                            </div>
+                        </div>
+                    </p:column>
+
+                    <p:column headerText="Telefone"
+                              sortBy="#{aluno.foneCelular}"
+                              filterBy="#{aluno.foneCelular}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{aluno.foneCelular}" />
+                    </p:column>
+
+                    <p:column headerText="E-mail"
+                              sortBy="#{aluno.email}"
+                              filterBy="#{aluno.email}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{aluno.email}" />
+                    </p:column>
+
+                    <p:column headerText="Ações" styleClass="actions-column">
+                        <p:commandButton icon="pi pi-pencil"
+                                         title="Editar"
+                                         action="#{alunoListaBean.editar(aluno.id)}"
+                                         ajax="false"
+                                         styleClass="ui-button-secondary ui-button-flat" />
+
+                        <p:commandButton icon="pi pi-trash"
+                                         title="Excluir"
+                                         action="#{alunoListaBean.excluir(aluno.id)}"
+                                         update="@form"
+                                         process="@this"
+                                         styleClass="ui-button-danger ui-button-flat">
+                            <p:confirm header="Confirmar exclusão"
+                                       message="Deseja realmente excluir este aluno?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </section>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes ui-button-danger" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
