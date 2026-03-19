@@ -2,7 +2,7 @@
 
 Aplicacao web para gerenciamento de alunos de academia.
 
-# Telas do sistema
+## Telas do sistema
 
 ![Lista de Alunos](prints/print-lista-alunos.jpg)
 
