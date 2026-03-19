@@ -4,9 +4,10 @@ Aplicacao web para gerenciamento de alunos de academia.
 
 # Telas do sistema
 
+![Lista de Alunos](prints/print-lista-alunos.jpg)
+
 ![Cadastro de Aluno](prints/print-cadastro-aluno.jpg)
 
-![Lista de Alunos](prints/print-lista-alunos.jpg)
 
 ## Stack
 
