@@ -61,8 +61,6 @@ O projeto segue a separacao:
   Script de criacao do datasource no WildFly.
 - `start-viafit.bat` e `start-viafit.ps1`
   Scripts para build, configuracao e deploy.
-- `stop-viafit.bat` e `stop-viafit.ps1`
-  Scripts para parar o servidor local.
 
 ## Como executar
 
