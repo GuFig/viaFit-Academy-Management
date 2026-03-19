@@ -2,10 +2,11 @@
 
 Aplicacao web para gerenciamento de alunos de academia.
 
-![print-lista-alunos](https://github.com/user-attachments/assets/80d7a317-b01b-4eae-bb82-c9fe14edf213)
+# Telas do sistema
 
-![print-cadastro-aluno](https://github.com/user-attachments/assets/ef12191e-26af-4f92-b67a-79d8e5a929ac)
+![Cadastro de Aluno](prints/print-cadastro-aluno.jpg)
 
+![Lista de Alunos](prints/print-lista-alunos.jpg)
 
 ## Stack
 
